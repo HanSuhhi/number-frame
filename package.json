@@ -1,0 +1,30 @@
+{
+  "name": "@hansuhhi-don/number-frame",
+  "version": "0.0.0",
+  "type": "module",
+  "description": "A simple tool for creating number transformations.",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build && vue-tsc --emitDeclarationOnly && mv dist/src dist/types && pnpm delete",
+    "delete": "rm dist/README.md.d.ts && rm dist/vite.config.d.ts && rm dist/vite.svg",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "@types/node": "^18.6.4",
+    "typescript": "^4.6.4",
+    "vite": "^3.0.0",
+    "vue-tsc": "^0.39.5"
+  },
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/number-frame.umd.cjs",
+  "module": "./dist/number-frame.js",
+  "typings": "./dist/types/main.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/number-frame.js",
+      "require": "./dist/number-frame.umd.cjs"
+    }
+  }
+}
