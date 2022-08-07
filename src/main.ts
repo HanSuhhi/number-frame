@@ -3,44 +3,48 @@ interface NumberFrameProps {
   to: number;
   duration?: number;
   element?: HTMLElement;
+  cb?: Function;
 }
 
 class NumberFrame {
-  #startTime?: number;
-  #from: number;
-  #to: number;
-  #duration: number;
-  #element?: HTMLElement;
-  get #frameNumber(): number {
-    return (this.#to - this.#from) / this.#duration;
+  private startTime?: number;
+  private from: number;
+  private to: number;
+  private duration: number;
+  private element?: HTMLElement;
+  private cb?: Function;
+  private get frameNumber(): number {
+    return (this.to - this.from) / this.duration;
   }
   /** func in animationFrame */
-  #step = (time: number) => {
-    if (!this.#startTime) this.#startTime = time;
+  private step = (time: number) => {
+    if (!this.startTime) this.startTime = time;
     // clac passTime
-    let passTime = Math.round(time - this.#startTime);
-    if (passTime > this.#duration) passTime = this.#duration;
+    let passTime = Math.round(time - this.startTime);
+    if (passTime > this.duration) passTime = this.duration;
 
-    this.number = Math.round(this.#from + passTime * this.#frameNumber);
-    if (this.#element) this.#element.innerText = this.number.toString();
+    this.number = Math.round(this.from + passTime * this.frameNumber);
+    if (this.element) this.element.innerText = this.number.toString();
+    if (this.cb) this.cb();
 
-    if (passTime >= this.#duration) return;
-    else requestAnimationFrame(this.#step);
+    if (passTime >= this.duration) return;
+    else requestAnimationFrame(this.step);
   };
 
-  constructor({ from = 0, to, duration = 1000, element }: NumberFrameProps) {
-    this.#from = from;
-    this.#to = to;
-    this.#duration = duration;
-    this.#element = element;
+  constructor({ from = 0, to, duration = 1000, element, cb }: NumberFrameProps) {
+    this.from = from;
+    this.to = to;
+    this.duration = duration;
+    this.element = element;
     this.number = from;
   }
 
   /** number of frames */
   public number: number;
   /** begin animation */
-  public start() {
-    requestAnimationFrame(this.#step);
+  public start(cb?: Function) {
+    this.cb = cb && cb.bind(this);
+    requestAnimationFrame(this.step);
   }
 }
 

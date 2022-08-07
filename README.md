@@ -3,11 +3,13 @@
 
 ### Getting Started
 
+* **Basic Use**
+
 ```html
 <div id='app' />
 ```
 ```javascript
-import NumberFrame from 'number-frame';
+import NumberFrame from '@hansuhhi-don/number-frame';
 
 const numberFrame = new NumberFrame({
   from: -200,
@@ -23,8 +25,37 @@ setTimeout(() => {
 
 **When you open the page some changes have happened.**
 
-![Demo Gif](/public/demo.gif)
+![Demo Gif](https://raw.githubusercontent.com/HanSuhhi/number-frame/main/public/demo.gif)
 
+* **Vue**
+
+```vue
+import { NumberFrame } from "@hansuhhi-don/number-frame";
+import { defineComponent, onMounted, ref } from "vue";
+
+const nf = new NumberFrame({
+  from: 0,
+  to: 2022,
+  duration: 2000,
+});
+
+export default defineComponent({
+  setup: () => {
+    const num = ref(0);
+
+    onMounted(() => {
+      nf.start(() => (num.value = nf.number));
+    });
+    return () => {
+      return <p>{num.value}</p>;
+    };
+  },
+});
+```
+
+**When you open the page some changes have happened.**
+
+![Vue Demo Gif](https://raw.githubusercontent.com/HanSuhhi/number-frame/main/public/vue.gif)
 
 ### API
 
@@ -34,13 +65,12 @@ setTimeout(() => {
 
 |  key   | type | description |
 |  ----  | ---- | ----  |
-| start  | Function | Start changing numbers as expected |
-| value  | Number | Number in a frame. <br />If you use a progressive framework like vue, you can  get the number  of each moment to render your component |
+| start  | (cb: Function) => void | Start changing numbers as expected <br /> cb will be called every time |
+| value  | Number | Number in a frame. |
 
 * **NumberFrameProps**
 
 > constructor
-
 
 |  key   | type | description |
 |  ----  | ---- | ----  |

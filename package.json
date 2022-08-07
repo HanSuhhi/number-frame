@@ -1,8 +1,12 @@
 {
   "name": "@hansuhhi-don/number-frame",
-  "version": "0.0.0",
+  "version": "0.0.5",
   "type": "module",
   "description": "A simple tool for creating number transformations.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/HanSuhhi/number-frame"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build && vue-tsc --emitDeclarationOnly && mv dist/src dist/types && pnpm delete",
